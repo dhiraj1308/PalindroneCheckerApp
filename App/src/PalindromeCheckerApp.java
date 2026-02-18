@@ -1,4 +1,14 @@
-public static void main(String[] args) {
+
+/**
+ * MAIN CLASS - UseCase3PalindromeCheckerApp
+ * =============================================================
+ * Use Case 3: Reverse String Based Palindrome Check
+ *
+ * Description:
+ * This class checks whether a string is a palindrome
+ * by reversing the string and comparing it with
+ * the original value.
+ */public static void main(String[] args) {
     // Example input for validation
     String input = "radar";
     String reversed = "";
