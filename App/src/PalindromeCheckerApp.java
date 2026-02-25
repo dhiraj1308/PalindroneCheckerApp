@@ -1,59 +1,78 @@
-import java.util.Stack;
-
 /**
- * MAIN CLASS - PalindromeCheckerApp
- * Use Case 5: Stack Based Palindrome Checker
+ * =============================================================================
+ * MAIN CLASS - UseCase6PalindromeCheckerApp
+ * =============================================================================
+ *
+ * Use Case 6: Queue + Stack Fairness Check
  *
  * Description:
- * This class validates a palindrome using a Stack
- * data structure which follows the LIFO principle.
+ * This class demonstrates palindrome validation using
+ * two different data structures:
  *
- * At this stage, the application:
- * - Pushes characters into a stack
- * - Pops them in reverse order
- * - Compares with original sequence
- * - Displays the result
+ * - Queue (FIFO - First In First Out)
+ * - Stack (LIFO - Last In First Out)
  *
- * This maps stack behavior to reversal logic.
+ * Characters are inserted into both structures and then
+ * compared by removing from the front of the queue and
+ * the top of the stack.
  *
- * @author Developer
- * @version 5.0
+ * If all characters match, the input string is confirmed
+ * as a palindrome.
+ *
+ * This use case helps understand how FIFO and LIFO
+ * behaviors can be combined for symmetric comparison.
+ *
+ * @dhiraj Developer
+ * @version 6.0
  */
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.Scanner;
+
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC5.
-     * @param args Command-line arguments
+     * Application entry point for UC6.
+     *
+     * @param args Command line arguments
      */
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        // Declare and initialize the input string.
-        String input = "noon";
+        System.out.println("Enter a string to check if it's a palindrome:");
+        String input = scanner.nextLine();
 
-        // Create a Stack to store characters.
+        // Data Structures
+        Queue<Character> queue = new LinkedList<>();
         Stack<Character> stack = new Stack<>();
 
-        // Push each character of the string into the stack.
-        for (char c : input.toCharArray()) {
+        // 1. Insert characters into both structures
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            queue.add(c);
             stack.push(c);
         }
 
-        // Assume palindrome initially.
         boolean isPalindrome = true;
 
-        // Iterate again through original string.
-        for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
+        // 2. Compare by removing from the front of the queue and top of the stack
+        while (!queue.isEmpty()) {
+            if (!queue.remove().equals(stack.pop())) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        // Displays the result
+        // 3. Result Output
         if (isPalindrome) {
-            System.out.println(input + " is a palindrome.");
+            System.out.println("The input string is confirmed as a palindrome.");
         } else {
-            System.out.println(input + " is not a palindrome.");
+            System.out.println("The input string is NOT a palindrome.");
         }
+
+        scanner.close();
     }
 }
+
