@@ -1,66 +1,87 @@
 /**
- * *************************************************************
- * MAIN CLASS - UseCase11PalindromeCheckerApp
- * *************************************************************
- *
- * Use Case 11: Object-Oriented Palindrome Service
- *
- * Description:
- * This class demonstrates palindrome validation using
- * object-oriented design.
- *
- * The palindrome logic is encapsulated inside a
- * PalindromeService class.
- *
- * This improves:
- * - Reusability
- * - Readability
- * - Separation of concerns
- *
- * @dhiraj Developer
- * @version 11.0
+ * ============================================================================
+ * MAIN CLASS - UseCase12PalindromeCheckerApp
+ * ============================================================================
+ * * Use Case 12: Strategy Pattern for Palindrome Algorithms
+ * * Description:
+ * This class demonstrates how different palindrome
+ * validation algorithms can be selected dynamically
+ * at runtime using the Strategy Design Pattern.
+ * * At this stage, the application:
+ * - Defines a common PalindromeStrategy interface
+ * - Implements a concrete Stack based strategy
+ * - Injects the strategy at runtime
+ * - Executes the selected algorithm
+ * * No performance comparison is done in this use case.
+ * The focus is purely on algorithm interchangeability.
+ * * The goal is to teach extensible algorithm design.
+ * * @dhiraj Developer
+ * @version 12.0
  */
 public class PalindromeCheckerApp {
-
-    /**
-     * Application entry point for UC11.
-     *
-     * @param args Command-line arguments
-     */
     public static void main(String[] args) {
-        PalindromeService service = new PalindromeService();
+        String testString1 = "racecar";
+        String testString2 = "hello";
 
-        // Example usage
-        String testWord = "racecar";
-        boolean result = service.checkPalindrome(testWord);
+        // Select the strategy dynamically at runtime
+        PalindromeStrategy strategy = new StackStrategy();
 
-        System.out.println("Is '" + testWord + "' a palindrome? " + result);
+        // Execute the selected algorithm
+        System.out.println("Is '" + testString1 + "' a palindrome? " + strategy.check(testString1));
+        System.out.println("Is '" + testString2 + "' a palindrome? " + strategy.check(testString2));
     }
 }
 
 /**
- * Service class that contains palindrome logic.
+ * ============================================================================
+ * INTERFACE - PalindromeStrategy
+ * ============================================================================
+ * * This interface defines a contract for all
+ * palindrome checking algorithms.
+ * * Any new algorithm must implement this interface
+ * and provide its own validation logic.
  */
-class PalindromeService {
+interface PalindromeStrategy {
+    boolean check(String input);
+}
+
+/**
+ * ============================================================================
+ * CLASS - StackStrategy
+ * ============================================================================
+ * * This class provides a Stack based implementation
+ * of the PalindromeStrategy interface.
+ * * It uses LIFO behavior to reverse characters
+ * and compare them with the original sequence.
+ */
+class StackStrategy implements PalindromeStrategy {
 
     /**
-     * Checks whether the input string is a palindrome.
-     *
-     * @param input Input string
+     * Implements palindrome validation using Stack.
+     * * @param input String to validate
      * @return true if palindrome, false otherwise
      */
-    public boolean checkPalindrome(String input) {
-        if (input == null) return false;
+    @Override
+    public boolean check(String input) {
+        if (input == null) {
+            return false;
+        }
 
-        // Remove whitespace and convert to lowercase for accurate checking
-        String clean = input.replaceAll("\\s+", "").toLowerCase();
-        int length = clean.length();
+        // Create a stack to store characters.
+        java.util.Stack<Character> stack = new java.util.Stack<>();
 
-        for (int i = 0; i < length / 2; i++) {
-            if (clean.charAt(i) != clean.charAt(length - 1 - i)) {
+        // Push each character of the input string onto the stack.
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
+
+        // Compare characters by popping from the stack.
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
                 return false;
             }
         }
+
         return true;
     }
 }
