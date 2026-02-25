@@ -1,66 +1,76 @@
-import java.util.LinkedList;
-import java.util.Scanner;
-
 /**
- * ---------------------------------------------------------
- * MAIN CLASS - UseCaseBPalindromeCheckerApp
- * ---------------------------------------------------------
+ * ************************************************************
+ * MAIN CLASS - UseCase9RecursivePalindrome
+ * ************************************************************
  *
- * Use Case B: Linked List Based Palindrome Checker
+ * Use Case 9: Recursive Palindrome Checker
  *
  * Description:
- * This class checks whether a string is a palindrome
- * using a LinkedList.
+ * This class validates a palindrome using recursion, ignoring 
+ * case, spaces, and special characters.
  *
- * Characters are added to the list and then compared
- * by removing elements from both ends:
+ * Characters are compared from the outer positions
+ * moving inward using recursive calls.
  *
- * - removeFirst()
- * - removeLast()
+ * The recursion stops when:
+ * - All valid characters are matched, or
+ * - A mismatch is found.
  *
- * This demonstrates how LinkedList supports
- * double-ended operations for symmetric validation.
+ * This use case demonstrates divide-and-conquer
+ * logic using method recursion.
  *
- * @dhiraj Developer
- * @version 8.0
+ * @author KANDURU-SUDHEER
+ * @version 9.0
  */
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC8.
+     * Application entry point for UC9.
      *
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter string: ");
-        String input = sc.nextLine();
+        // Testing with complex phrases
+        String test1 = "Madam, I'm Adam";
+        String test2 = "A man, a plan, a canal: Panama";
+        String test3 = "Hello World";
 
-        LinkedList<Character> list = new LinkedList<>();
+        System.out.println("Is '" + test1 + "' a palindrome? " + check(test1, 0, test1.length() - 1));
+        System.out.println("Is '" + test2 + "' a palindrome? " + check(test2, 0, test2.length() - 1));
+        System.out.println("Is '" + test3 + "' a palindrome? " + check(test3, 0, test3.length() - 1));
+    }
 
-        // Add characters to the list
-        for (char ch : input.toLowerCase().toCharArray()) {
-            if (Character.isLetterOrDigit(ch)) {
-                list.add(ch);
-            }
+    /**
+     * Recursively checks whether a string is a palindrome.
+     *
+     * @param s     Input string
+     * @param start Starting index
+     * @param end   Ending index
+     * @return true if palindrome, otherwise false
+     */
+    private static boolean check(String s, int start, int end) {
+        // Base Case: If the pointers meet or cross, we've checked everything
+        if (start >= end) {
+            return true;
         }
 
-        boolean isPalindrome = true;
-
-        // Symmetric validation using removeFirst() and removeLast()
-        while (list.size() > 1) {
-            if (!list.removeFirst().equals(list.removeLast())) {
-                isPalindrome = false;
-                break;
-            }
+        // Logic to skip non-alphanumeric characters (spaces, commas, etc.)
+        if (!Character.isLetterOrDigit(s.charAt(start))) {
+            return check(s, start + 1, end);
+        }
+        if (!Character.isLetterOrDigit(s.charAt(end))) {
+            return check(s, start, end - 1);
         }
 
-        if (isPalindrome) {
-            System.out.println("The string is a palindrome.");
-        } else {
-            System.out.println("The string is not a palindrome.");
+        // Compare characters case-insensitively
+        char charStart = Character.toLowerCase(s.charAt(start));
+        char charEnd = Character.toLowerCase(s.charAt(end));
+
+        if (charStart != charEnd) {
+            return false;
         }
 
-        sc.close();
+        // Recursive Step: Move the pointers inward
+        return check(s, start + 1, end - 1);
     }
 }
