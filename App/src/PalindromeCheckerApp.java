@@ -1,78 +1,66 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
- * =============================================================================
- * MAIN CLASS - UseCase6PalindromeCheckerApp
- * =============================================================================
- *
- * Use Case 6: Queue + Stack Fairness Check
+ * =========================================================================
+ * MAIN CLASS - UseCase7PalindromeCheckerApp
+ * =========================================================================
+ * Use Case 7: Deque Based Optimized Palindrome Checker
  *
  * Description:
- * This class demonstrates palindrome validation using
- * two different data structures:
+ * This class validates a palindrome using a Deque (Double Ended Queue).
  *
- * - Queue (FIFO - First In First Out)
- * - Stack (LIFO - Last In First Out)
+ * Characters are inserted into the deque and then
+ * compared by removing elements from both ends:
+ * - removeFirst()
+ * - removeLast()
  *
- * Characters are inserted into both structures and then
- * compared by removing from the front of the queue and
- * the top of the stack.
+ * This avoids reversing the string and provides an
+ * efficient front-to-back comparison approach.
  *
- * If all characters match, the input string is confirmed
- * as a palindrome.
- *
- * This use case helps understand how FIFO and LIFO
- * behaviors can be combined for symmetric comparison.
+ * This use case demonstrates optimal bidirectional
+ * traversal using Deque.
  *
  * @dhiraj Developer
- * @version 6.0
+ * @version 7.0
  */
-
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.Scanner;
-
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC6.
-     *
-     * @param args Command line arguments
+     * Application entry point for UC7.
+     * @param args Command-line arguments
      */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        // Define the input string
+        String input = "racecar";
 
-        System.out.println("Enter a string to check if it's a palindrome:");
-        String input = scanner.nextLine();
+        // Create a Deque to store characters
+        Deque<Character> deque = new ArrayDeque<>();
 
-        // Data Structures
-        Queue<Character> queue = new LinkedList<>();
-        Stack<Character> stack = new Stack<>();
-
-        // 1. Insert characters into both structures
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            queue.add(c);
-            stack.push(c);
+        // Convert string to lowercase and add characters to the deque
+        String processedInput = input.toLowerCase();
+        for (int i = 0; i < processedInput.length(); i++) {
+            deque.addLast(processedInput.charAt(i));
         }
 
         boolean isPalindrome = true;
 
-        // 2. Compare by removing from the front of the queue and top of the stack
-        while (!queue.isEmpty()) {
-            if (!queue.remove().equals(stack.pop())) {
+        // Compare characters from both ends until the deque is empty or has one element
+        while (deque.size() > 1) {
+            Character first = deque.removeFirst();
+            Character last = deque.removeLast();
+
+            if (!first.equals(last)) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        // 3. Result Output
+        // Output the result
         if (isPalindrome) {
-            System.out.println("The input string is confirmed as a palindrome.");
+            System.out.println("\"" + input + "\" is a palindrome.");
         } else {
-            System.out.println("The input string is NOT a palindrome.");
+            System.out.println("\"" + input + "\" is not a palindrome.");
         }
-
-        scanner.close();
     }
 }
-
