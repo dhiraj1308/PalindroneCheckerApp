@@ -1,1 +1,13 @@
-This project is a Java application that demonstrates the Strategy Design Pattern by implementing a flexible palindrome-checking utility. It defines a central PalindromeStrategy interface, allowing different validation algorithms to be dynamically injected and executed at runtime. The current implementation features a StackStrategy, which leverages a Last-In-First-Out (LIFO) stack data structure to reverse the characters of an input string and verify if it reads the same forwards and backwards. The primary focus of this codebase is to illustrate extensible software design and algorithm interchangeability, providing a foundation where new palindrome-checking methods can be easily added without modifying the core application logic.
+📖 README: UC13 Performance Comparison🎯
+Goal
+To transition from functional code to performant code by measuring how long specific algorithms take to execute in nanoseconds ($ns$).
+🔍 Key ConceptsSystem.nanoTime():
+Unlike currentTimeMillis(), this provides the most precise available system timer for measuring elapsed time.
+Benchmarking: The process of running a specific task and measuring its performance metrics.
+Overhead: Understanding that different data structures (like Stack) have different memory and time costs.
+🛠 Execution InstructionsTo match the requirements shown in your provided image, follow these terminal commands:
+Compile the program:javac UseCase13PalindromeCheckerApp.
+javaRun the program:java UseCase13PalindromeCheckerApp
+📊 Expected Output FormatPlaintextInput : level
+Is Palindrome? : true
+Execution Time : 852600 ns
